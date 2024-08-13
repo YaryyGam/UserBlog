@@ -5,17 +5,13 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 
-
-<AnchorPane prefHeight="50.0" prefWidth="550.0" stylesheets="@../Styles/WorkerCell.css"
-            xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.jmc.medicalapplication.Controller.Admin.WorkerCellController">
-    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0"
-          AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
-        <Label fx:id="date_lbl" text="Date"/>
-        <Label fx:id="fname_lbl" text="First Name"/>
-        <Label fx:id="sname_lbl" text="Second Name"/>
-        <Label fx:id="lname_lbl" text="Last Nanem"/>
-        <Label fx:id="time_lbl" text="Time of begin"/>
-        <TextField fx:id="hours_fld" prefHeight="25.0" prefWidth="77.0"/>
+<AnchorPane prefHeight="50.0" prefWidth="570.0" stylesheets="@../Styles/WorkerCell.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jmc.medicalapplication.Controller.Admin.WorkerCellController">
+    <HBox alignment="CENTER" layoutX="10.0" prefHeight="50.0" prefWidth="550.0" styleClass="worker_cell_box" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <Label fx:id="date_lbl" text="Date" />
+        <Label fx:id="fname_lbl" text="First Name" />
+        <Label fx:id="sname_lbl" text="Second Name" />
+        <Label fx:id="lname_lbl" text="Last Nanem" />
+        <Label fx:id="time_lbl" text="Time of begin" />
+        <TextField fx:id="hours_fld" prefHeight="42.0" prefWidth="77.0" />
     </HBox>
 </AnchorPane>

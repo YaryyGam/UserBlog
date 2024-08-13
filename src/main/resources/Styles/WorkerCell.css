@@ -1,0 +1,34 @@
+.worker_cell_box{
+    -fx-background-color: #EEEEEE;
+    -fx-alignment: center;
+    -fx-padding: 0 10 0 10;
+    -fx-spacing: 20;
+
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 10;
+    -fx-effect: dropshadow(two-pass-box, #AAAAAA, 2, 0,0,1);
+
+}
+
+.worker_cell_box Label{
+    -fx-fill: #132A13;
+    -fx-fill: #000000;
+    -fx-font-size: 1.2em;
+}
+
+
+.worker_cell_box TextField {
+    -fx-pref-width:  50;
+    -fx-pref-height: 20;
+    -fx-background-color: #EEEEEE;
+    -fx-font-size: 1.2em;
+    -fx-alignment: center;
+
+    /* Додавання товщини та кольору країв */
+    /* -fx-border-width: 2px; */
+    -fx-border-color: #AAAAAA; /* Колір країв */
+
+    /* Додавання закруглених кутів */
+    -fx-background-radius: 5px; /* Закруглення фону */
+    -fx-border-radius: 5px; /* Закруглення країв */
+}
