@@ -1,0 +1,45 @@
+.worker_adding_box{
+    -fx-background-color: #EEEEEE;
+    -fx-alignment: left;
+    -fx-padding: 0 10 0 10;
+    -fx-spacing: 30;
+}
+
+.worker_adding_box Text{
+    -fx-fill: #132A13;
+    -fx-fill: #000000;
+    -fx-font-size: 2em;
+}
+
+.worker_adding_box Button{
+        -fx-pref-width: 250;
+        -fx-pref-height: 40;
+        -fx-background-color: #132A13;
+        -fx-text-fill: #EEEEEE;
+        -fx-font-weight: bold;
+        -fx-font-size: 1.6em;
+        -fx-alignment: center;
+        -fx-effect: dropshadow(three-pass-box, #DDDDDD, 5, 0, 0, 6);
+}
+.worker_adding_box Label{
+    -fx-font-weight: bold;
+        -fx-text-fill: #008000;
+        -fx-font-size: 2em;
+}
+
+.worker_adding_box TextField {
+    -fx-pref-width: 250;
+    -fx-pref-height: 40;
+    -fx-background-color: #EEFFEE;
+    -fx-font-size: 1.6em;
+    -fx-alignment: center;
+    -fx-effect: dropshadow(three-pass-box, #DDDDDD, 5, 0, 0, 6);
+
+    /* Додавання товщини та кольору країв */
+    -fx-border-width: 2px; /* Товщина країв */
+    -fx-border-color: #008000; /* Колір країв */
+
+    /* Додавання закруглених кутів */
+    -fx-background-radius: 10px; /* Закруглення фону */
+    -fx-border-radius: 10px; /* Закруглення країв */
+}
