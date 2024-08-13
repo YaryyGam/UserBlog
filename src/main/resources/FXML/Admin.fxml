@@ -2,10 +2,11 @@
 
 <?import javafx.scene.layout.*?>
 
-<BorderPane fx:id="client_parent" xmlns="http://javafx.com/javafx"
+<BorderPane fx:id="worker_parent"
+        xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml">
     <left>
-        <fx:include source="MenuPanelView.fxml"></fx:include>
+        <fx:include source="MenuPanel.fxml"></fx:include>
     </left>
 
     <center>

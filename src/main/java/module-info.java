@@ -8,9 +8,9 @@ module com.jmc.medicalapplication {
 
     opens com.jmc.medicalapplication to javafx.fxml;
     exports com.jmc.medicalapplication;
-    exports com.jmc.medicalapplication.Controller;
-    exports com.jmc.medicalapplication.Controller.Client;
-    exports com.jmc.medicalapplication.Model;
+    //exports com.jmc.medicalapplication.Controller;
+    exports com.jmc.medicalapplication.Controller.Admin;
+    exports com.jmc.medicalapplication.Models;
     exports com.jmc.medicalapplication.Util;
 
 }
