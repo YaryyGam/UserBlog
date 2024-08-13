@@ -1,0 +1,34 @@
+.menu_panel_box{
+    -fx-background-color: #EEEEEE;
+        -fx-alignment: center;
+        -fx-padding: 0 10 0 10;
+}
+
+.menu_panel_box Text{
+    -fx-font-weight: bold;
+    -fx-fill: #132A13;
+    -fx-fill: #000000;
+    -fx-font-size: 2em;
+}
+
+.menu_panel_container{
+    -fx-background-color: #FFFFFF;
+        -fx-background-radius: 10;
+        -fx-spacing: 20;
+        -fx-effect: dropshadow(two-pass-box, #AAAAAA, 5, 0,0,4);
+}
+
+.menu_panel_container Button{
+        -fx-pref-width: 115;
+        -fx-pref-height: 40;
+        -fx-background-color: #132A13;
+        -fx-text-fill: #FFFFFF;
+        -fx-font-size: 1.1em;
+        -fx-alignment: center;
+        -fx-background-radius: 10;
+        -fx-effect: dropshadow(three-pass-box, #DDDDDD, 5, 0, 0, 6);
+}
+
+.menu_panel_container Button:hover{
+    -fx-cursor: hand;
+}

@@ -1,0 +1,18 @@
+.dashboard_box{
+    -fx-background-color: #EEEEEE;
+    -fx-alignment: center;
+    -fx-padding: 0 10 0 10;
+}
+
+.dashboard_box Text{
+    -fx-font-weight: bold;
+    -fx-fill: #132A13;
+    -fx-fill: #000000;
+    -fx-font-size: 2em;
+}
+
+.dashboard_box Label{
+    -fx-fill: #132A13;
+    -fx-fill: #000000;
+    -fx-font-size: 1.7em;
+}
