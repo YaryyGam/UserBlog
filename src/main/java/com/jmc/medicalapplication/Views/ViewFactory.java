@@ -23,7 +23,7 @@ public class ViewFactory {
     public AnchorPane getDashboardView(){
         if(dashboardView == null){
             try {
-                dashboardView = new FXMLLoader(getClass().getResource("/FXML/Dashboard.fxml")).load();
+                dashboardView = new FXMLLoader(getClass().getResource("/com/jmc/medicalapplication/FXML/DashboardView.fxml")).load();
             }catch (Exception e){
                 e.printStackTrace();
             }
@@ -34,7 +34,7 @@ public class ViewFactory {
     public AnchorPane getAddWorkerView(){
         if(addWorkerView == null){
             try {
-                addWorkerView = new FXMLLoader(getClass().getResource("/FXML/AddWorker.fxml")).load();
+                addWorkerView = new FXMLLoader(getClass().getResource("/com/jmc/medicalapplication/FXML/AddWorker.fxml")).load();
             }catch (Exception e){
                 e.printStackTrace();
             }
