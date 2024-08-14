@@ -1,4 +1,4 @@
-package com.jmc.medicalapplication.Util;
+package com.jmc.medicalapplication.Views;
 
 public enum AdminMenuOptions {
     WORKERS,

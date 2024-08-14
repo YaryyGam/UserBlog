@@ -1,5 +1,6 @@
 package com.jmc.medicalapplication.Controller.Admin;
 
+import com.jmc.medicalapplication.Models.Model;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.BorderPane;
 
@@ -12,6 +13,12 @@ public class WorkerController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        Model.getInstance().getViewFactory().getAdminMenuOptionsItem().addListener((observableValue, adminMenuOptions, t1) -> {
+            switch (t1){
+                case WORKERS -> worker_parent.setCenter(Model.getInstance().getViewFactory().getDashboardView());
+                case ADD_WORKER -> worker_parent.setCenter(Model.getInstance().getViewFactory().getAddWorkerView());
+                default -> worker_parent.setCenter(Model.getInstance().getViewFactory().getDashboardView());
+            }
+        });
     }
 }

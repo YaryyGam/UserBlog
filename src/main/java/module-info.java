@@ -11,6 +11,6 @@ module com.jmc.medicalapplication {
     //exports com.jmc.medicalapplication.Controller;
     exports com.jmc.medicalapplication.Controller.Admin;
     exports com.jmc.medicalapplication.Models;
-    exports com.jmc.medicalapplication.Util;
+    exports com.jmc.medicalapplication.Views;
 
 }
