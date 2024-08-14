@@ -13,8 +13,8 @@ public class WorkerController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        Model.getInstance().getViewFactory().getAdminMenuOptionsItem().addListener((observableValue, adminMenuOptions, t1) -> {
-            switch (t1){
+        Model.getInstance().getViewFactory().getAdminMenuOptionsItem().addListener((observableValue, oldVal, newVal) -> {
+            switch (newVal){
                 case WORKERS -> worker_parent.setCenter(Model.getInstance().getViewFactory().getDashboardView());
                 case ADD_WORKER -> worker_parent.setCenter(Model.getInstance().getViewFactory().getAddWorkerView());
                 default -> worker_parent.setCenter(Model.getInstance().getViewFactory().getDashboardView());

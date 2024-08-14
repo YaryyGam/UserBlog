@@ -1,6 +1,7 @@
 package com.jmc.medicalapplication.Controller.Admin;
 
 import com.jmc.medicalapplication.Models.Model;
+import com.jmc.medicalapplication.Views.AdminMenuOptions;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 
@@ -17,6 +18,6 @@ public class MenuPanelController implements Initializable {
         add_worker_btn.setOnAction(e->onAddWorker());
     }
 
-    private void onDashboard(){Model.getInstance().getViewFactory().getDashboardView();}
-    private void onAddWorker(){Model.getInstance().getViewFactory().getAddWorkerView();}
+    private void onDashboard(){Model.getInstance().getViewFactory().getAdminMenuOptionsItem().set(AdminMenuOptions.WORKERS);}
+    private void onAddWorker(){Model.getInstance().getViewFactory().getAdminMenuOptionsItem().set(AdminMenuOptions.ADD_WORKER);}
 }
