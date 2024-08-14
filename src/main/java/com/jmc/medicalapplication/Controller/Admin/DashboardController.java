@@ -14,7 +14,6 @@ public class DashboardController implements Initializable {
     public Label date_lbl;
     public ListView worker_listview;
     public Button refresh_btn;
-    public Button update_btn;
 
     private final LocalDate date = LocalDate.now();
 

@@ -45,6 +45,26 @@ public class DatabaseDriver {
         return resultSet;
     }
 
+    public Time getTimeOfEnd(String lastName, LocalDate date) {
+        String query = "SELECT TimeOfEnd FROM WorkRecords WHERE LastName = ? AND Date = ?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, lastName);
+            statement.setDate(2, java.sql.Date.valueOf(date));
+
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getTime("TimeOfEnd");
+            } else {
+                System.out.println("Record not found for " + lastName + " on " + date);
+                return null;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public ResultSet getWorkerTime(String lName){
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -64,7 +84,42 @@ public class DatabaseDriver {
     *
     * */
 
-    public void createDailyWorkRecords(LocalDate date, LocalTime timeOfBegin, LocalTime timeOfEnd) {
+    public boolean isEndTimeSet(String lastName, LocalDate date) {
+        String query = "SELECT TimeOfEnd FROM WorkRecords WHERE LastName = ? AND Date = ?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, lastName);
+            statement.setDate(2, java.sql.Date.valueOf(date));
+
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                Time timeOfEnd = resultSet.getTime("TimeOfEnd");
+                return timeOfEnd != null; // Повертає true, якщо час завершення роботи встановлений
+            } else {
+                System.out.println("Record not found for " + lastName + " on " + date);
+                return false; // Повертає false, якщо запису немає
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false; // Повертає false у випадку помилки
+        }
+    }
+
+    public void updateWorkerEndTime(String lastName, LocalTime timeOfEnd, LocalDate date) {
+        try {
+            String query = "UPDATE WorkRecords SET TimeOfEnd = ? WHERE LastName = ? AND Date = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setTime(1, Time.valueOf(timeOfEnd));
+            preparedStatement.setString(2, lastName);
+            preparedStatement.setDate(3, Date.valueOf(date));
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void createDailyWorkRecords(LocalDate date) {
         Statement statement;
         ResultSet resultSet;
 
@@ -90,8 +145,6 @@ public class DatabaseDriver {
                             "VALUES (?, ?, ?, ?)";
                     PreparedStatement insertStatement = connection.prepareStatement(insertQuery);
                     insertStatement.setString(1, lastName);
-                    insertStatement.setTime(2, Time.valueOf(timeOfBegin));
-                    insertStatement.setTime(3, Time.valueOf(timeOfEnd));
                     insertStatement.setDate(4, Date.valueOf(date));
 
                     insertStatement.executeUpdate();
