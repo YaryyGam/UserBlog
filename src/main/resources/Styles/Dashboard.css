@@ -16,3 +16,17 @@
     -fx-fill: #000000;
     -fx-font-size: 1.7em;
 }
+
+.dashboard_box Button{
+    -fx-pref-width: 20;
+    -fx-pref-height: 30;
+    -fx-background-color: #132A13;
+    -fx-text-fill: #EEEEEE;
+    -fx-font-size: 1.1em;
+    -fx-alignment: CENTER; /* Виправлено значення на CENTER */
+    -fx-effect: dropshadow(three-pass-box, #DDDDDD, 5, 0, 0, 6);
+}
+
+.dashboard_box FontAwesomeIconView{
+                   -fx-fill: #FFFFFF;
+}

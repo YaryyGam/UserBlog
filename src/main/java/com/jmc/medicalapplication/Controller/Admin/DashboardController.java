@@ -1,9 +1,25 @@
 package com.jmc.medicalapplication.Controller.Admin;
 
+import com.jmc.medicalapplication.Models.Model;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 
-public class DashboardController {
+import java.net.URL;
+import java.time.LocalDate;
+import java.util.ResourceBundle;
+
+public class DashboardController implements Initializable {
     public Label date_lbl;
     public ListView worker_listview;
+    public Button refresh_btn;
+    public Button update_btn;
+
+    private final LocalDate date = LocalDate.now();
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        refresh_btn.setOnAction(e-> Model.getInstance().getDatabaseDriver().createDailyWorkRecords(date));
+    }
 }
