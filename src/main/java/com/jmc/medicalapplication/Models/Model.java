@@ -4,8 +4,10 @@ import com.jmc.medicalapplication.Views.ViewFactory;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
@@ -47,10 +49,10 @@ public class Model {
                 String dateStr = resultSet.getString("Date");
 
                 // Convert string to LocalTime
-                LocalTime timeOfBegin = LocalTime.parse(timeOfBeginStr);
+                Time timeOfBegin = Time.valueOf(timeOfBeginStr);
 
                 // Convert string to LocalDate
-                LocalDate date = LocalDate.parse(dateStr);
+                Date date = Date.valueOf(dateStr);
 
                 workers.add(new Worker(lName, fName, sName, timeOfBegin, position, date));
             }
@@ -59,6 +61,10 @@ public class Model {
         } catch (DateTimeParseException e) {
             System.err.println("Error parsing date or time: " + e.getMessage());
         }
+    }
+
+    public void getWorkerLog(Date date){
+        Model.getInstance().getDatabaseDriver().createDailyWorkRecords(date);
     }
 
     public void setLatestWorkers(){prepareWorkers(this.allWorkers);}

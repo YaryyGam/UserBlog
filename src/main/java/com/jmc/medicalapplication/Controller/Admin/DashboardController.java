@@ -8,6 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 
 import java.net.URL;
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
@@ -16,27 +17,38 @@ public class DashboardController implements Initializable {
     public ListView worker_listview;
     public Button refresh_btn;
 
-    private final LocalDate date = LocalDate.now();
+    private final Date date = Date.valueOf(LocalDate.now());
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        refresh_btn.setOnAction(e-> Model.getInstance().getDatabaseDriver().createDailyWorkRecords(date));
+        // Set refresh button action once
+        refresh_btn.setOnAction(e -> {
+            Model.getInstance().getDatabaseDriver().createDailyWorkRecords(date);
+            updateWorkers();
+        });
         initAllWorkers();
-        date_lbl.setText((date.toString()));
+        // Set date_lbl text
+        date_lbl.setText(date.toString());
         worker_listview.setItems(Model.getInstance().getAllWorkers());
-        worker_listview.setCellFactory(e->new WorkerCellFactory());
-        refresh_btn.setOnAction(e->updateWorkers());
+        worker_listview.setCellFactory(e -> new WorkerCellFactory());
+        getWorkersLog(Date.valueOf(date_lbl.getText()));
     }
 
-    private void initAllWorkers(){
-        if(Model.getInstance().getAllWorkers().isEmpty()){
-            Model.getInstance().setLatestWorkers();
-        }else{
+    private void initAllWorkers() {
+        if (Model.getInstance().getAllWorkers().isEmpty()) {
             Model.getInstance().setLatestWorkers();
         }
     }
 
-    private void updateWorkers(){
+    private void updateWorkers() {
         Model.getInstance().updateWorkers();
+    }
+
+    private void getWorkersLog(Date date) {
+        try {
+            Model.getInstance().getWorkerLog(date);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();  // Handle or log the error
+        }
     }
 }

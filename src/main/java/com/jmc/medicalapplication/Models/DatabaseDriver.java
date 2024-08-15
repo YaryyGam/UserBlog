@@ -3,6 +3,8 @@ package com.jmc.medicalapplication.Models;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.HashSet;
+import java.util.Set;
 
 public class DatabaseDriver {
     private Connection connection;
@@ -33,6 +35,29 @@ public class DatabaseDriver {
         }
     }
 
+    public boolean workerExists(String lName) {
+        PreparedStatement statement;
+        ResultSet resultSet;
+        try {
+            String query = "SELECT COUNT(*) FROM Workers WHERE LastName=?";
+            statement = this.connection.prepareStatement(query);
+            statement.setString(1, lName);
+
+            resultSet = statement.executeQuery();
+            resultSet.next();
+            return resultSet.getInt(1) > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public void dailyWorkUpdate(String lName, Time startTime,Time endWork, Date date) {
+        if (workerExists(lName)) {
+            updateWorkerEndTime(lName, startTime, endWork, date);
+        }
+    }
+
     public ResultSet getAllWorkers(){
         String query = "SELECT * FROM Workers";
         try {
@@ -49,18 +74,37 @@ public class DatabaseDriver {
         try {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, lastName);
-            statement.setDate(2, java.sql.Date.valueOf(date));
+            statement.setString(2, date.toString()); // Формат YYYY-MM-DD
 
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                return resultSet.getTime("TimeOfEnd");
+                String timeStr = resultSet.getString("TimeOfEnd"); // Отримуємо рядок
+                if (timeStr != null && !timeStr.isEmpty()) {
+                    return Time.valueOf(timeStr); // Конвертуємо рядок у Time
+                } else {
+                    return null; // Повертаємо null, якщо час закінчення відсутній
+                }
             } else {
-                System.out.println("Record not found for " + lastName + " on " + date);
-                return null;
+                return null; // Повертаємо null, якщо запис не знайдено
             }
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    public void updateWorkerEndTime(String lastName, Time timeOfBegin, Time timeOfEnd, Date date) {
+        try {
+            String query = "UPDATE WorkRecords SET TimeOfEnd = ?, TimeOfBegin = ? WHERE LastName = ? AND Date = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, timeOfEnd.toString()); // формат HH:MM:SS
+            preparedStatement.setString(2, timeOfBegin.toString()); // формат HH:MM:SS
+            preparedStatement.setString(3, lastName);
+            preparedStatement.setString(4, date.toString()); // формат YYYY-MM-DD
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
@@ -97,76 +141,65 @@ public class DatabaseDriver {
     *
     * */
 
-    public boolean isEndTimeSet(String lastName, LocalDate date) {
+    public boolean isEndTimeSet(String lastName, Date date) {
         String query = "SELECT TimeOfEnd FROM WorkRecords WHERE LastName = ? AND Date = ?";
         try {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, lastName);
-            statement.setDate(2, java.sql.Date.valueOf(date));
+            statement.setString(2, date.toString());
 
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 Time timeOfEnd = resultSet.getTime("TimeOfEnd");
-                return timeOfEnd != null; // Повертає true, якщо час завершення роботи встановлений
+                return timeOfEnd != null;
             } else {
                 System.out.println("Record not found for " + lastName + " on " + date);
-                return false; // Повертає false, якщо запису немає
+                return false;
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            return false; // Повертає false у випадку помилки
+            return false;
         }
     }
 
-    public void updateWorkerEndTime(String lastName, LocalTime timeOfEnd, LocalDate date) {
+    public void createDailyWorkRecords(Date date) {
         try {
-            String query = "UPDATE WorkRecords SET TimeOfEnd = ? WHERE LastName = ? AND Date = ?";
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setTime(1, Time.valueOf(timeOfEnd));
-            preparedStatement.setString(2, lastName);
-            preparedStatement.setDate(3, Date.valueOf(date));
+            // Створення PreparedStatement для перевірки наявності записів
+            String countQuery = "SELECT COUNT(*) FROM WorkRecords WHERE Date = ?";
+            try (PreparedStatement countStatement = this.connection.prepareStatement(countQuery)) {
+                countStatement.setString(1, date.toString()); // Формат YYYY-MM-DD
+                try (ResultSet resultSet = countStatement.executeQuery()) {
+                    resultSet.next();
+                    int count = resultSet.getInt(1);
 
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+                    // Якщо немає записів для цієї дати
+                    if (count == 0) {
+                        // Отримання всіх робітників
+                        String workersQuery = "SELECT LastName, FirstName, SecondName, TimeOfBegin FROM Workers";
+                        try (Statement workersStatement = this.connection.createStatement();
+                             ResultSet workers = workersStatement.executeQuery(workersQuery)) {
 
-    public void createDailyWorkRecords(LocalDate date) {
-        Statement statement;
-        ResultSet resultSet;
+                            while (workers.next()) {
+                                String lastName = workers.getString("LastName");
+                                String timeOfBegin = workers.getString("TimeOfBegin");
 
-        try {
-            statement = this.connection.createStatement();
+                                // Вставка нових записів у таблицю WorkRecords
+                                String insertQuery = "INSERT INTO WorkRecords (LastName, TimeOfBegin, TimeOfEnd, Date) VALUES (?, ?, ?, ?)";
+                                try (PreparedStatement insertStatement = this.connection.prepareStatement(insertQuery)) {
+                                    insertStatement.setString(1, lastName);
+                                    insertStatement.setString(2, timeOfBegin);
+                                    insertStatement.setNull(3, Types.VARCHAR); // Запис TimeOfEnd як NULL
+                                    insertStatement.setString(4, date.toString()); // Формат YYYY-MM-DD
 
-            // Перевірка, чи існують записи для цієї дати
-            resultSet = statement.executeQuery("SELECT COUNT(*) AS count FROM WorkRecords WHERE Date = '" + date.toString() + "'");
-            resultSet.next();
-            int count = resultSet.getInt("count");
-
-            // Якщо записів немає, створюємо їх
-            if (count == 0) {
-                // Отримуємо всіх працівників
-                ResultSet workers = statement.executeQuery("SELECT LastName, FirstName, SecondName FROM Workers");
-                while (workers.next()) {
-                    String lastName = workers.getString("LastName");
-                    String firstName = workers.getString("FirstName");
-                    String secondName = workers.getString("SecondName");
-
-                    // Створення запису про робочі години
-                    String insertQuery = "INSERT INTO WorkRecords (LastName, TimeOfBegin, TimeOfEnd, Date) " +
-                            "VALUES (?, ?, ?, ?)";
-                    PreparedStatement insertStatement = connection.prepareStatement(insertQuery);
-                    insertStatement.setString(1, lastName);
-                    insertStatement.setDate(4, Date.valueOf(date));
-
-                    insertStatement.executeUpdate();
+                                    insertStatement.executeUpdate();
+                                }
+                            }
+                        }
+                    }
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-
-
 }
