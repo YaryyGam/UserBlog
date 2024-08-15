@@ -63,6 +63,10 @@ public class Model {
         }
     }
 
+    public void FindWorkersByDate(Date date){
+        Model.getInstance().getDatabaseDriver().getWorkersByDate(date);
+    }
+
     public void getWorkerLog(Date date){
         Model.getInstance().getDatabaseDriver().createDailyWorkRecords(date);
     }

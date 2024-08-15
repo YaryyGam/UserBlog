@@ -35,6 +35,18 @@ public class DatabaseDriver {
         }
     }
 
+    public ResultSet getWorkersByDate(Date date) {
+        String query = "SELECT * FROM WorkRecords WHERE Date = ?";
+        try {
+            PreparedStatement preparedStatement = this.connection.prepareStatement(query);
+            preparedStatement.setDate(1, date);
+            return preparedStatement.executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public void updateWorkerDate() {
         LocalDate currentDate = LocalDate.now(); // Отримання актуальної дати
         String currentDateStr = currentDate.toString(); // Формат YYYY-MM-DD

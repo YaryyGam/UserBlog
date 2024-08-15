@@ -1,14 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.jmc.medicalapplication.Controller.Admin.SearchByDateController"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane prefHeight="800.0" prefWidth="600.0" styleClass="search_box" stylesheets="@../Styles/SearchByDate.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jmc.medicalapplication.Controller.Admin.SearchByDateController">
+   <children>
+      <ListView fx:id="workers_listview" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="100.0" />
+      <Text layoutX="215.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search By Date" AnchorPane.topAnchor="14.1015625" />
+      <HBox layoutX="125.0" layoutY="55.0" prefHeight="32.0" prefWidth="350.0" styleClass="search_VBOX_box">
+         <children>
+            <TextField fx:id="search_fld" prefHeight="30.0" prefWidth="200.0" />
+            <Button fx:id="search_btn" mnemonicParsing="false" prefHeight="25.0" prefWidth="112.0" text="Search">
+               <graphic>
+                  <FontAwesomeIconView glyphName="SEARCH" size="12" />
+               </graphic>
+            </Button>
+         </children>
+      </HBox>
+   </children>
 </AnchorPane>
