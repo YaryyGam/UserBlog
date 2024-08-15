@@ -15,7 +15,7 @@ public class DatabaseDriver {
         }
     }
 
-    public void createWorker(String lName, String fName, String sName, LocalTime timeOfBegin, String currentPosition, LocalDate date) {
+    public void createWorker(String lName, String fName, String sName, Time timeOfBegin, String currentPosition, Date date) {
         PreparedStatement statement;
         try {
             String query = "INSERT INTO Workers (LastName, FirstName, SecondName, TimeOfBegin, CurrentPosition, Date) VALUES (?, ?, ?, ?, ?, ?)";
@@ -23,9 +23,9 @@ public class DatabaseDriver {
             statement.setString(1, lName);
             statement.setString(2, fName);
             statement.setString(3, sName);
-            statement.setTime(4, java.sql.Time.valueOf(timeOfBegin));
+            statement.setString(4, timeOfBegin.toString());
             statement.setString(5, currentPosition);
-            statement.setDate(6, java.sql.Date.valueOf(date));
+            statement.setString(6, date.toString());
 
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -34,15 +34,14 @@ public class DatabaseDriver {
     }
 
     public ResultSet getAllWorkers(){
-        Statement statement;
-        ResultSet resultSet=null;
+        String query = "SELECT * FROM Workers";
         try {
-            statement=this.connection.createStatement();
-            resultSet=statement.executeQuery("SELECT * FROM Workers;");
-        }catch (SQLException e) {
+            Statement statement = this.connection.createStatement();
+            return statement.executeQuery(query);
+        } catch (SQLException e) {
             e.printStackTrace();
+            return null;
         }
-        return resultSet;
     }
 
     public Time getTimeOfEnd(String lastName, LocalDate date) {

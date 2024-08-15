@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
 
 public class Model {
     private static Model model;
@@ -35,20 +36,28 @@ public class Model {
     public DatabaseDriver getDatabaseDriver() {return databaseDriver;}
 
     private void prepareWorkers(ObservableList<Worker> workers){
-        ResultSet resultSet = databaseDriver.getWorker(this.worker.lNameProperty().get());
+        ResultSet resultSet = databaseDriver.getAllWorkers();
         try {
             while (resultSet.next()){
                 String lName = resultSet.getString("LastName");
                 String fName = resultSet.getString("FirstName");
                 String sName = resultSet.getString("SecondName");
-                LocalTime timeOfBegin = resultSet.getTime("TimeOfBegin").toLocalTime();
+                String timeOfBeginStr = resultSet.getString("TimeOfBegin");
                 String position = resultSet.getString("CurrentPosition");
-                LocalDate date = resultSet.getDate("Date").toLocalDate();
+                String dateStr = resultSet.getString("Date");
+
+                // Convert string to LocalTime
+                LocalTime timeOfBegin = LocalTime.parse(timeOfBeginStr);
+
+                // Convert string to LocalDate
+                LocalDate date = LocalDate.parse(dateStr);
 
                 workers.add(new Worker(lName, fName, sName, timeOfBegin, position, date));
             }
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
+        } catch (DateTimeParseException e) {
+            System.err.println("Error parsing date or time: " + e.getMessage());
         }
     }
 

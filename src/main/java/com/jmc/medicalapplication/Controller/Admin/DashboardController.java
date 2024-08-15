@@ -23,12 +23,15 @@ public class DashboardController implements Initializable {
         refresh_btn.setOnAction(e-> Model.getInstance().getDatabaseDriver().createDailyWorkRecords(date));
         initAllWorkers();
         date_lbl.setText((date.toString()));
+        worker_listview.setItems(Model.getInstance().getAllWorkers());
         worker_listview.setCellFactory(e->new WorkerCellFactory());
         refresh_btn.setOnAction(e->updateWorkers());
     }
 
     private void initAllWorkers(){
         if(Model.getInstance().getAllWorkers().isEmpty()){
+            Model.getInstance().setLatestWorkers();
+        }else{
             Model.getInstance().setLatestWorkers();
         }
     }
