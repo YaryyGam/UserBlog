@@ -35,7 +35,7 @@ public class WorkerCellController implements Initializable {
         lname_lbl.textProperty().bind(worker.lNameProperty());
         time_lbl.setText(worker.timeOfBeginProperty().toString());
         update_btn.setOnAction(e->{
-            //муємо значення годин, які ввів користувач
+            // Get the value of hours worked from the text field
             double hoursWorked = Double.parseDouble(hours_fld.getText());
 
             // Extract whole hours and minutes from the fractional value

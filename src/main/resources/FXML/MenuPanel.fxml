@@ -10,6 +10,7 @@
     <VBox alignment="CENTER" layoutX="50.0" layoutY="88.0" prefHeight="200.0" prefWidth="100.0" styleClass="menu_panel_container" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="100.0">
         <Button fx:id="workers_btn" mnemonicParsing="false" prefHeight="25.0" prefWidth="80.0" text="Workers" />
         <Button fx:id="add_worker_btn" mnemonicParsing="false" text="Add Worker" />
+      <Button fx:id="search_by_date_btn" mnemonicParsing="false" prefHeight="25.0" prefWidth="80.0" text="Search By Date" />
     </VBox>
     <HBox prefHeight="100.0" prefWidth="200.0" styleClass="menu_panel_box" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Medical App" />

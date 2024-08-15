@@ -65,11 +65,25 @@ public class DatabaseDriver {
         }
     }
 
-    public ResultSet getWorkerTime(String lName){
+    public ResultSet getWorker(String lName){
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         try {
             String sql = "SELECT * FROM Workers WHERE LastName=?";
+            preparedStatement = this.connection.prepareStatement(sql);
+            preparedStatement.setString(1, lName);
+            resultSet = preparedStatement.executeQuery();
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return resultSet;
+    }
+
+    public ResultSet getWorkRecords(String lName){
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            String sql = "SELECT * FROM WorkRecords WHERE LastName=?";
             preparedStatement = this.connection.prepareStatement(sql);
             preparedStatement.setString(1, lName);
             resultSet = preparedStatement.executeQuery();

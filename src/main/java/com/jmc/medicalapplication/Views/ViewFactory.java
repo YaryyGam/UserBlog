@@ -12,6 +12,7 @@ public class ViewFactory {
 
     private AnchorPane dashboardView;
     private AnchorPane addWorkerView;
+    private AnchorPane searchByDateView;
     private final ObjectProperty<AdminMenuOptions> adminMenuOptionsItem;
 
     public ViewFactory() {
@@ -40,6 +41,17 @@ public class ViewFactory {
             }
         }
         return addWorkerView;
+    }
+
+    public AnchorPane getSearchByDateView(){
+        if(searchByDateView == null){
+            try {
+                searchByDateView = new FXMLLoader(getClass().getResource("/FXML/SearchByDate.fxml")).load();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        return searchByDateView;
     }
 
     public void showUserWindow(){

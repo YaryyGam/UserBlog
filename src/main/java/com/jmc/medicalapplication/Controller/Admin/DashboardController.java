@@ -1,6 +1,7 @@
 package com.jmc.medicalapplication.Controller.Admin;
 
 import com.jmc.medicalapplication.Models.Model;
+import com.jmc.medicalapplication.Views.WorkerCellFactory;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -20,5 +21,19 @@ public class DashboardController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         refresh_btn.setOnAction(e-> Model.getInstance().getDatabaseDriver().createDailyWorkRecords(date));
+        initAllWorkers();
+        date_lbl.setText((date.toString()));
+        worker_listview.setCellFactory(e->new WorkerCellFactory());
+        refresh_btn.setOnAction(e->updateWorkers());
+    }
+
+    private void initAllWorkers(){
+        if(Model.getInstance().getAllWorkers().isEmpty()){
+            Model.getInstance().setLatestWorkers();
+        }
+    }
+
+    private void updateWorkers(){
+        Model.getInstance().updateWorkers();
     }
 }

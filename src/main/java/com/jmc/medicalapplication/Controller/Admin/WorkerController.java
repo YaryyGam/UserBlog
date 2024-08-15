@@ -17,6 +17,7 @@ public class WorkerController implements Initializable {
             switch (newVal){
                 case WORKERS -> worker_parent.setCenter(Model.getInstance().getViewFactory().getDashboardView());
                 case ADD_WORKER -> worker_parent.setCenter(Model.getInstance().getViewFactory().getAddWorkerView());
+                case SEARCH_BY_DATE -> worker_parent.setCenter(Model.getInstance().getViewFactory().getSearchByDateView());
                 default -> worker_parent.setCenter(Model.getInstance().getViewFactory().getDashboardView());
             }
         });
