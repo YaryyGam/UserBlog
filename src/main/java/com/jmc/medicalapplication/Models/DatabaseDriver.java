@@ -35,6 +35,23 @@ public class DatabaseDriver {
         }
     }
 
+    public void updateWorkerDate() {
+        LocalDate currentDate = LocalDate.now(); // Отримання актуальної дати
+        String currentDateStr = currentDate.toString(); // Формат YYYY-MM-DD
+
+        String query = "UPDATE Workers SET Date = ? WHERE Date IS NOT ?"; // Оновлює дату лише для записів, де дата не є актуальною
+
+        try (PreparedStatement preparedStatement = this.connection.prepareStatement(query)) {
+            preparedStatement.setString(1, currentDateStr);
+            preparedStatement.setString(2, currentDateStr); // Не оновлювати записи, де вже стоїть актуальна дата
+
+            int rowsAffected = preparedStatement.executeUpdate();
+            System.out.println("Updated rows: " + rowsAffected);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public boolean workerExists(String lName) {
         PreparedStatement statement;
         ResultSet resultSet;

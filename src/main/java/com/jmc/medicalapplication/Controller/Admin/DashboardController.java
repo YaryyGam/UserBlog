@@ -21,23 +21,27 @@ public class DashboardController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // Set refresh button action once
-        refresh_btn.setOnAction(e -> {
-            Model.getInstance().getDatabaseDriver().createDailyWorkRecords(date);
-            updateWorkers();
-        });
         initAllWorkers();
+        updateDate();
         // Set date_lbl text
         date_lbl.setText(date.toString());
         worker_listview.setItems(Model.getInstance().getAllWorkers());
         worker_listview.setCellFactory(e -> new WorkerCellFactory());
         getWorkersLog(Date.valueOf(date_lbl.getText()));
+        refresh_btn.setOnAction(e -> {
+            Model.getInstance().getDatabaseDriver().createDailyWorkRecords(date);
+            updateWorkers();
+        });
     }
 
     private void initAllWorkers() {
         if (Model.getInstance().getAllWorkers().isEmpty()) {
             Model.getInstance().setLatestWorkers();
         }
+    }
+
+    private void updateDate(){
+        Model.getInstance().getDatabaseDriver().updateWorkerDate();
     }
 
     private void updateWorkers() {
