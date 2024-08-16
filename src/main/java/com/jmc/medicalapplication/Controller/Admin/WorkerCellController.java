@@ -55,9 +55,17 @@ public class WorkerCellController implements Initializable {
     private void handleUpdateButton() {
         try {
             // Extract hours and minutes from the text field
-            double hoursWorked = Double.parseDouble(hours_fld.getText());
-            int hours = (int) hoursWorked;
-            int minutes = (int) ((hoursWorked - hours) * 60);
+            int hours = 0;
+            int minutes = 0;
+            if(Double.parseDouble(hours_fld.getText())>6){
+                double hoursWorked = Double.parseDouble(hours_fld.getText()) + 1;
+                 hours = (int) hoursWorked;
+                 minutes = (int) Math.round((hoursWorked - hours) * 60);
+            }else {
+                double hoursWorked = Double.parseDouble(hours_fld.getText());
+                 hours = (int) hoursWorked;
+                 minutes = (int) Math.round((hoursWorked - hours) * 60);
+            }
 
             // Convert Strings to LocalTime and Date
             LocalTime startLocalTime = LocalTime.parse(time_lbl.getText());
