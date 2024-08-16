@@ -2,9 +2,6 @@ package com.jmc.medicalapplication.Models;
 
 import java.sql.*;
 import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.HashSet;
-import java.util.Set;
 
 public class DatabaseDriver {
     private Connection connection;

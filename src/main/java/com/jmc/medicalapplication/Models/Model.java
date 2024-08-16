@@ -8,8 +8,6 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
 
 public class Model {
@@ -61,10 +59,6 @@ public class Model {
         } catch (DateTimeParseException e) {
             System.err.println("Error parsing date or time: " + e.getMessage());
         }
-    }
-
-    public void FindWorkersByDate(Date date){
-        Model.getInstance().getDatabaseDriver().getWorkersByDate(date);
     }
 
     public void getWorkerLog(Date date){
