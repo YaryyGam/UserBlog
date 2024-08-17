@@ -34,6 +34,7 @@ public class WorkerCellController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         date_lbl.setText(worker.dateProperty().toString());
         bindFirstSecondName();
+        addWorkerRecord();
         getTimeOfEnd();
         lname_lbl.textProperty().bind(worker.lNameProperty());
         time_lbl.setText(worker.timeOfBeginProperty().toString());
@@ -118,6 +119,14 @@ public class WorkerCellController implements Initializable {
 
     private void dailyWorkUpdate(String lName, Time start,Time end, Date date){
         Model.getInstance().getDatabaseDriver().dailyWorkUpdate(lName, start, end, date);
+    }
+
+    private void addWorkerRecord(){
+        if(Model.getInstance().getDatabaseDriver().workerExists(worker.lNameProperty().get())){
+            if(!Model.getInstance().getDatabaseDriver().workerRecordExists(worker.lNameProperty().get())){
+                Model.getInstance().getDatabaseDriver().createWorkerRecord(worker.lNameProperty().get(), worker.timeOfBeginProperty(), null, worker.dateProperty());
+            }
+        }
     }
 
     public void saveWorkEndTime(String lastName, LocalTime timeOfBegin,LocalTime timeOfEnd, LocalDate date) {

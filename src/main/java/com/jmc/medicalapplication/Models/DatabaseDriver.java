@@ -1,5 +1,6 @@
 package com.jmc.medicalapplication.Models;
 
+import javax.naming.spi.ResolveResult;
 import java.sql.*;
 import java.time.LocalDate;
 
@@ -75,6 +76,23 @@ public class DatabaseDriver {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
+    }
+
+    public boolean workerRecordExists(String lName){
+        PreparedStatement statement;
+        ResultSet resultSet;
+        try {
+            String sql = "SELECT COUNT(*) FROM WorkRecords WHERE LastName=?";
+            statement = this.connection.prepareStatement(sql);
+            statement.setString(1, lName);
+            resultSet = statement.executeQuery();
+            resultSet.next();
+            return resultSet.getInt(1)>0;
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+
         return false;
     }
 
@@ -185,6 +203,22 @@ public class DatabaseDriver {
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
+        }
+    }
+
+    public void createWorkerRecord(String lName, Time star, Time end, Date date){
+        PreparedStatement statement;
+        try {
+            String query = "INSERT INTO WorkRecords (LastName, TimeOfBegin, TimeOfEnd, Date) VALUES (?, ?, ?, ?)";
+            statement = this.connection.prepareStatement(query);
+            statement.setString(1, lName);
+            statement.setString(2, star.toString());
+            statement.setString(3, null);
+            statement.setString(4, date.toString());
+
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
