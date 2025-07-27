@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="0294f7a4-4da0-4144-8a6a-b94a3dbf7610" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../../JavaSpring/Part 26 API Gateway/api-gateway/src/main/java/com/yaryy/api_gateway/LoadBalancerConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../JavaSpring/Part 26 API Gateway/api-gateway/src/main/java/com/yaryy/api_gateway/LoadBalancerModification.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/post-service/src/main/java/com/yaryy/post_service/Controller/PostController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/post-service/src/main/java/com/yaryy/post_service/DAO/PostDAO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/post-service/src/main/java/com/yaryy/post_service/Model/Post.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/post-service/src/main/java/com/yaryy/post_service/Model/PostRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/post-service/src/main/java/com/yaryy/post_service/Model/PostResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/post-service/src/main/java/com/yaryy/post_service/Service/PostService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/post-service/src/main/java/com/yaryy/post_service/common/ResponseMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/registry-service/.gitattributes" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/registry-service/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/registry-service/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/registry-service/mvnw" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/registry-service/mvnw.cmd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/registry-service/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/registry-service/src/main/java/com/yaryy/registry_service/RegistryServiceApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/registry-service/src/main/resources/application.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/registry-service/src/test/java/com/yaryy/registry_service/RegistryServiceApplicationTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-service/src/main/java/com/yaryy/user_service/Controller/UserController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-service/src/main/java/com/yaryy/user_service/DAO/UserDAO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-service/src/main/java/com/yaryy/user_service/Feing/PostInterface.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-service/src/main/java/com/yaryy/user_service/Model/Post.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-service/src/main/java/com/yaryy/user_service/Model/Role.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-service/src/main/java/com/yaryy/user_service/Model/User.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-service/src/main/java/com/yaryy/user_service/Model/UserRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-service/src/main/java/com/yaryy/user_service/Model/UserResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-service/src/main/java/com/yaryy/user_service/Service/UserService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-service/src/main/java/com/yaryy/user_service/common/ResponseMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-service/src/main/java/com/yaryy/user_service/mapper/UserMapper.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="GithubDefaultAccount">
+    <option name="defaultAccountId" value="f8818beb-40f1-4677-b268-aee5bc3624c2" />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 7
+}]]></component>
+  <component name="ProjectId" id="30QzWtfr8LY9jRnCRvMHQIPGCN6" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "master",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "F:/Java/PatProjects/UserBlog"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="0294f7a4-4da0-4144-8a6a-b94a3dbf7610" name="Changes" comment="" />
+      <created>1753574620011</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1753574620011</updated>
+    </task>
+    <servers />
+  </component>
+</project>
