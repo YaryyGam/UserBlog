@@ -1,34 +1,33 @@
 package com.yaryy.user_service.Service;
 
 import com.yaryy.user_service.DAO.UserDAO;
-import com.yaryy.user_service.Feing.PostInterface;
-import com.yaryy.user_service.Model.Post;
-import com.yaryy.user_service.Model.User;
-import com.yaryy.user_service.Model.UserRequest;
-import com.yaryy.user_service.Model.UserResponse;
+import com.yaryy.user_service.ExceptionHandler.CustomeExceptions.*;
+import com.yaryy.user_service.Feign.CommentInterface;
+import com.yaryy.user_service.Feign.PostInterface;
+import com.yaryy.user_service.Model.*;
 import com.yaryy.user_service.common.ResponseMapper;
 import com.yaryy.user_service.mapper.UserMapper;
+import jakarta.ws.rs.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class UserService {
 
     private final UserDAO userDAO;
     private final PostInterface postInterface;
+    private final CommentInterface commentInterface;
 
     @Autowired
-    public UserService(UserDAO userDAO, PostInterface postInterface) {
+    public UserService(UserDAO userDAO, PostInterface postInterface, CommentInterface commentInterface) {
         this.userDAO = userDAO;
         this.postInterface = postInterface;
+        this.commentInterface = commentInterface;
     }
 
     public ResponseEntity<List<User>> getAllUsersSuperData() {
@@ -77,7 +76,7 @@ public class UserService {
             // Повертаємо відповідь
             userRequest.setUserName(generatedUserName);
             return ResponseEntity
-                    .status(HttpStatus.OK)
+                    .status(HttpStatus.CREATED)
                     .body(userRequest);
 
         } catch (Exception e) {
@@ -142,7 +141,7 @@ public class UserService {
                 userToUpdate.setPostIds(list);
                 userDAO.save(userToUpdate);
                 return ResponseEntity
-                        .status(HttpStatus.OK)
+                        .status(HttpStatus.CREATED)
                         .body(postResult.getBody());
             }
             return ResponseEntity
@@ -248,5 +247,113 @@ public class UserService {
         } catch (Exception e) {
             return ResponseMapper.badRequest();
         }
+    }
+
+    @Transactional
+    public ResponseEntity<Post> createPostWithWeather(int userId, String city, Post post) {
+        try {
+            User user = userDAO.findById(userId).orElseThrow(() -> new UserNotFoundException("User " + userId + " not found."));
+
+            Post postSaved = postInterface.createPostWithWeather(city, post).getBody();
+
+            List<Integer> postIds = user.getPostIds();
+            if(postSaved == null){
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+            }
+            postIds.add(postSaved.getId());
+
+            user.setPostIds(postIds);
+
+            userDAO.save(user);
+
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(postSaved);
+        }catch (Exception e){
+            return ResponseMapper.badRequest();
+        }
+    }
+
+    @Transactional
+    public ResponseEntity<Comment> createComment(int userId, int postId, Comment comment) {
+            User user = userDAO.findById(userId).orElseThrow(() -> new UserNotFoundException("User " + userId + " not found."));
+
+            var commentId = commentInterface.createComment(postId, comment);
+
+            if(!commentId.getStatusCode().is2xxSuccessful() || !commentId.hasBody()) {
+                throw new BadRequestException("Failed to create comment.");
+            }
+            user.getCommentIds().add(commentId.getBody().getId());
+            userDAO.save(user);
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(commentId.getBody());
+
+    }
+
+    @Transactional
+    public ResponseEntity<Comment> editComment(int userId, int postId, long commentId, Comment comment) {
+        User user = userDAO.findById(userId).orElseThrow(() -> new UserNotFoundException("User " + userId + " not found."));
+
+        if(!user.getCommentIds().contains(commentId)){
+            throw new CommentOwnershipException("User " + userId + " cannot edit this comment.");
+        }
+
+        var commentToSearch = commentInterface.findCommentById(postId, commentId);
+
+        if(!commentToSearch.getStatusCode().is2xxSuccessful() || commentToSearch.getBody() == null) {
+            throw new CommentNotFoundException("Failed to find comment " + commentId);
+        }
+
+        Comment commentToEdit = commentToSearch.getBody();
+        commentToEdit.setContent(comment.getContent());
+
+        var updateResponse = commentInterface.editComment(postId, commentId, commentToEdit);
+
+        if (!updateResponse.getStatusCode().is2xxSuccessful() || !updateResponse.hasBody()) {
+            throw new CommentUpdateException("Failed to update comment " + commentId);
+        }
+
+        return ResponseEntity.ok(updateResponse.getBody());
+    }
+
+    @Transactional
+    public ResponseEntity<String> deleteComment(int userId, int postId, long commentId) {
+        User user = userDAO.findById(userId).orElseThrow(() -> new UserNotFoundException("User " + userId + " not found."));
+
+        if(!user.getCommentIds().contains(commentId)){
+            throw new CommentOwnershipException("User " + userId + " cannot delete this comment.");
+        }
+
+        var commentToSearch = commentInterface.findCommentById(postId, commentId);
+
+        if(!commentToSearch.getStatusCode().is2xxSuccessful() || commentToSearch.getBody() == null) {
+            throw new CommentNotFoundException("Failed to find comment " + commentId);
+        }
+
+        var commentRequest = commentInterface.deleteComment(postId, commentId);
+
+        if(!commentRequest.getStatusCode().is2xxSuccessful()){
+            throw new ResourceNotFoundException("Failed to find comment " + commentId);
+        }
+
+        user.getCommentIds().remove(commentId);
+        userDAO.save(user);
+
+        return ResponseEntity.ok("Comment " + commentId + " deleted successfully.");
+    }
+
+    public ResponseEntity<List<Comment>> findAllPostComments(int userId, int postId) {
+        User user = userDAO.findById(userId).orElseThrow(() -> new UserNotFoundException("User " + userId + " not found."));
+
+        var commentResponse = commentInterface.getAllPostComments(postId);
+
+        if(!commentResponse.getStatusCode().is2xxSuccessful() || commentResponse.getBody() == null) {
+            throw new PostNotFoundException("Failed to find post " + postId);
+        }
+
+        List<Comment> commentList = commentResponse.getBody();
+
+        return ResponseEntity.ok(commentList);
+
     }
 }

@@ -1,4 +1,4 @@
-package com.yaryy.user_service.Feing;
+package com.yaryy.user_service.Feign;
 
 import com.yaryy.user_service.Model.Post;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -24,4 +24,8 @@ public interface PostInterface {
 
     @GetMapping("post/getPostById/{id}")
     public ResponseEntity<Post> getPostById(@PathVariable int id);
+
+
+    @PostMapping("post/createPostWithWeather/{city}")
+    public ResponseEntity<Post> createPostWithWeather(@PathVariable String city, @RequestBody Post postRequest);
 }

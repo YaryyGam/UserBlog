@@ -50,4 +50,9 @@ public class PostController {
     public ResponseEntity<PostResponse> updatePost(@PathVariable int id, @RequestBody PostRequest postRequest){
         return postService.updatePost(id, postRequest);
     }
+
+    @PostMapping("/createPostWithWeather/{city}")
+    public ResponseEntity<PostResponse> createPostWithWeather(@PathVariable String city, @RequestBody PostRequest postRequest){
+        return postService.createPostWithWeather(city, postRequest);
+    }
 }

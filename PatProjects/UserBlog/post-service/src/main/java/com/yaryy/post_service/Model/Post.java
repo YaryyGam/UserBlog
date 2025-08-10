@@ -18,6 +18,8 @@ public class Post {
     private String title;
     private String content;
     private LocalDateTime articleDate;
+    private String city;
+    private String temperature;
 
     @PrePersist
     protected void onCreate() {

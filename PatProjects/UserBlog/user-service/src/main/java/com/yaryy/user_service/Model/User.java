@@ -26,6 +26,9 @@ public class User {
     @ElementCollection
     private List<Integer> postIds;
 
+    @ElementCollection
+    private List<Long> commentIds;
+
     @PrePersist
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();

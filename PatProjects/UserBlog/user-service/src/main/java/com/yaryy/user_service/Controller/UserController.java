@@ -1,10 +1,7 @@
 package com.yaryy.user_service.Controller;
 
 
-import com.yaryy.user_service.Model.Post;
-import com.yaryy.user_service.Model.User;
-import com.yaryy.user_service.Model.UserRequest;
-import com.yaryy.user_service.Model.UserResponse;
+import com.yaryy.user_service.Model.*;
 import com.yaryy.user_service.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -43,7 +40,7 @@ public class UserController {
         return userService.findUserById(id);
     }
 
-    @PostMapping("/editUser/{id}")
+    @PutMapping("/editUser/{id}")
     public ResponseEntity<User> editUser(@PathVariable int id, @RequestBody UserRequest userRequest){
         return userService.editUser(id, userRequest);
     }
@@ -68,8 +65,33 @@ public class UserController {
         return userService.getPostById(userId, id);
     }
 
-    @PostMapping("/{userId}/updatePost/{id}")
+    @PutMapping("/{userId}/updatePost/{id}")
     public ResponseEntity<Post> updatePost(@PathVariable int userId, @PathVariable int id, @RequestBody Post post){
         return userService.updatePost(userId, id, post);
+    }
+
+    @PostMapping("/{userId}/createPostWithWeather/{city}")
+    public ResponseEntity<Post> createPostWithWeather(@PathVariable int userId, @PathVariable String city, @RequestBody Post post){
+        return userService.createPostWithWeather(userId, city, post);
+    }
+
+    @PostMapping("/{userId}/createComment/{postId}")
+    public ResponseEntity<Comment> createComment(@PathVariable int userId, @PathVariable int postId, @RequestBody Comment comment){
+        return userService.createComment(userId, postId, comment);
+    }
+
+    @PutMapping("/{userId}/editComment/{postId}/{commentId}")
+    public ResponseEntity<Comment> editComment(@PathVariable int userId, @PathVariable int postId, @PathVariable long commentId, @RequestBody Comment comment){
+        return userService.editComment(userId, postId, commentId, comment);
+    }
+
+    @DeleteMapping("/{userId}/deleteComment/{postId}/{commentId}")
+    public ResponseEntity<String> deleteComment(@PathVariable int userId, @PathVariable int postId, @PathVariable long commentId){
+        return userService.deleteComment(userId, postId, commentId);
+    }
+
+    @GetMapping("/{userId}/findAllPostComments/{postId}")
+    public ResponseEntity<List<Comment>> findAllPostComments(@PathVariable int userId, @PathVariable int postId){
+        return userService.findAllPostComments(userId, postId);
     }
 }

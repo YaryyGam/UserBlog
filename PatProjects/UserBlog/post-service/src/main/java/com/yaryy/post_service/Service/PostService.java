@@ -19,10 +19,12 @@ import java.util.Optional;
 public class PostService {
 
     private final PostDAO postDAO;
+    private final WeatherService weatherService;
 
     @Autowired
-    public PostService(PostDAO postDAO){
+    public PostService(PostDAO postDAO, WeatherService weatherService){
         this.postDAO = postDAO;
+        this.weatherService = weatherService;
     }
 
     public ResponseEntity<List<Post>> getAllPosts() {
@@ -105,6 +107,29 @@ public class PostService {
                 return ResponseEntity.status(HttpStatus.OK).body(post);
             }
             return ResponseMapper.notFoundRequest();
+        }catch (Exception e){
+            return ResponseMapper.badRequest();
+        }
+    }
+    @Transactional
+    public ResponseEntity<PostResponse> createPostWithWeather(String city, PostRequest postRequest) {
+        try {
+            Post post = new Post();
+            post.setTitle(postRequest.getTitle());
+            post.setContent(postRequest.getContent());
+            post.setCity(city);
+            post.setTemperature(weatherService.getCurrentTemperature(city));
+            Post postSaved = postDAO.save(post);
+            PostResponse postResponse = new PostResponse();
+            postResponse.setCity(postSaved.getCity());
+            postResponse.setTemperature(postSaved.getTemperature());
+            postResponse.setContent(postSaved.getContent());
+            postResponse.setTitle(postSaved.getTitle());
+            postResponse.setArticleDate(postSaved.getArticleDate());
+            postResponse.setId(postSaved.getId());
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(postResponse);
         }catch (Exception e){
             return ResponseMapper.badRequest();
         }
