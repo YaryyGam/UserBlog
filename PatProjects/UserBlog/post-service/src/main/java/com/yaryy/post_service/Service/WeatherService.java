@@ -8,7 +8,7 @@ import org.json.JSONObject;
 @Service
 public class WeatherService {
 
-    private final String API_KEY = "90531ee9ebe208803ea457d3482387e7"; // заміни на свій
+    private final String API_KEY = "***"; // заміни на свій
     private final String URL = "http://api.openweathermap.org/data/2.5/weather?q=%s&appid=%s&units=metric";
 
     public String getCurrentTemperature(String city) {
